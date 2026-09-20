@@ -27,3 +27,5 @@ Luantiの設定画面
 [LICENSE](./LICENSE)  
 License for code: LGPL 3.0  
 License for media and all other assets:  CC-by-SA 4.0  
+
+**AI生成**:このパッケージにはAI生成のアセットまたはコードが含まれています
