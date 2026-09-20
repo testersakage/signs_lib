@@ -1,0 +1,64 @@
+#Translation for signs_lib (Luanti / Minetest mod) in Japanese.
+# Original Translator: Gemini
+# Translation Adjustment: testersakage
+msgid ""
+msgstr ""
+"Project-Id-Version: signs_lib\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-19 11:37+0900\n"
+"PO-Revision-Date: 2026-09-19 11:45+0900\n"
+"Last-Translator: \n"
+"Language-Team: Japanese\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: api.lua
+msgid "Locked sign, owned by @1\n"
+msgstr "施錠された看板、所有者: @1\n"
+
+#: api.lua
+msgid ""
+"Skims through all currently-loaded sign-bearing mapblocks, clears away any "
+"entities within each sign's node space, and regenerates their text entities, "
+"if any."
+msgstr ""
+"現在読み込まれている看板のあるすべてのマップブロックを走査し、各看板のノード空間内にあるエンティティを消去して、テキストエンティティが存在する場合はそれを再生成します。"
+
+#: api.lua
+msgid "There are no signs in the currently-loaded terrain."
+msgstr "現在読み込まれている地形内に看板はありません。"
+
+#: api.lua
+msgid "Found a total of @1 sign nodes across @2 blocks."
+msgstr "@2 個のブロックから合計 @1 個の看板ノードが見つかりました。"
+
+#: api.lua
+msgid "Regenerating sign entities ..."
+msgstr "看板のエンティティを再生成中 ..."
+
+#: api.lua
+msgid "Finished."
+msgstr "完了しました。"
+
+#: api.lua
+msgid "Write"
+msgstr "書き込み"
+
+#: api.lua
+msgid "Unicode font"
+msgstr ""
+
+#: api.lua
+msgid "Wide font"
+msgstr ""
+
+#: standard_signs.lua
+msgid "Wooden Wall Sign"
+msgstr "木製の看板"
+
+#: standard_signs.lua
+msgid "Steel Wall Sign"
+msgstr "鋼鉄の看板"

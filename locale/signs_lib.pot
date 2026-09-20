@@ -1,0 +1,62 @@
+#Translation template for signs_lib (Luanti / Minetest mod)
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: signs_lib\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-19 11:37+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME EMAIL@ADDRESS\n"
+"Language-Team: LANGUAGE LL@li.org\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: api.lua
+msgid "Locked sign, owned by @1@n"
+msgstr ""
+
+#: api.lua
+msgid ""
+"Skims through all currently-loaded sign-bearing mapblocks, clears away any "
+"entities within each sign's node space, and regenerates their text entities, "
+"if any."
+msgstr ""
+
+#: api.lua
+msgid "There are no signs in the currently-loaded terrain."
+msgstr ""
+
+#: api.lua
+msgid "Found a total of @1 sign nodes across @2 blocks."
+msgstr ""
+
+#: api.lua
+msgid "Regenerating sign entities ..."
+msgstr ""
+
+#: api.lua
+msgid "Finished."
+msgstr ""
+
+#: api.lua
+msgid "Write"
+msgstr ""
+
+#: api.lua
+msgid "Unicode font"
+msgstr ""
+
+#: api.lua
+msgid "Wide font"
+msgstr ""
+
+#: standard_signs.lua
+msgid "Wooden Wall Sign"
+msgstr ""
+
+#: standard_signs.lua
+msgid "Steel Wall Sign"
+msgstr ""

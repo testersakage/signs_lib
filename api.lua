@@ -350,13 +350,38 @@ else
 end
 
 -- CONSTANTS
+-- load settingtypes and .tsv
+local tsv_path = signs_lib.path .. "/unifont.tsv"
+local selected_type = minetest.settings:get("signs_lib_select_unifont") or "Default"
+local target_unifont = nil
+
+local file = io.open(tsv_path, "r")
+if file then
+    for line in file:lines() do
+        if line ~= "" and not line:find("^#") then
+            local key, filename = line:match("^([^\t]+)\t([^\t]+)")
+            if key and filename and key == selected_type then
+                target_unifont = filename
+                break
+            end
+        end
+    end
+    file:close()
+end
+
+-- fallback
+if not target_unifont then
+    target_unifont = "signs_lib_uni%02x.png"
+end
+
+minetest.log("action", "[Signs Lib Multifont] Selected Unifont: " .. target_unifont)
 
 -- Path to the textures.
 local TP = signs_lib.path .. "/textures"
 -- Font file formatter
 local CHAR_FILE = "%s_%02x.png"
 local CHAR_FILE_WIDE = "%s_%s.png"
-local UNIFONT_TEX = "signs_lib_uni%02x.png\\^[sheet\\:16x16\\:%d,%d"
+local UNIFONT_TEX = target_unifont .. "\\^[sheet\\:16x16\\:%d,%d"
 -- Fonts path
 local CHAR_PATH = TP .. "/" .. CHAR_FILE
 local CHAR_PATH_WIDE = TP .. "/" .. CHAR_FILE_WIDE
@@ -597,6 +622,7 @@ local function make_line_texture(line, lineno, pos, line_width, line_height, cwi
 							local x = idx % 16
 							local y = math.floor(idx / 16)
 							tex = UNIFONT_TEX:format(page, x, y)
+--							minetest.log("action", "[Signs Lib API] line_tex: " .. tex)
 							if font_size == 32 then
 								tex = tex .. "\\^[resize\\:32x32"
 							end
@@ -629,6 +655,7 @@ local function make_line_texture(line, lineno, pos, line_width, line_height, cwi
 							col = ("%X"):format(cur_color),
 							w = w,
 						})
+							minetest.log("action", "[Signs Lib API] line_tex: " .. tex)
 					end
 					ch_offs = ch_offs + w
 				end
@@ -674,6 +701,7 @@ local function make_line_texture(line, lineno, pos, line_width, line_height, cwi
 			table.insert(texture, (":%d,%d=%s"):format(xpos + ch.off, ypos, ch.tex))
 		end
 		xpos = xpos + word.w
+		
 		if xpos < end_xpos then
 			table.insert(texture, (":%d,%d="):format(xpos, ypos) .. char_tex(font_name, " "))
 			xpos = xpos + cwidth_tab[" "]
@@ -700,6 +728,7 @@ function signs_lib.make_sign_texture(lines, pos)
 	local colorbgw
 	local widemult = meta:get_int("widefont") == 1 and 0.5 or 1
 	local force_unicode_font = meta:get_int("unifont") == 1
+--	local force_unicode_font = meta:get_int("unifont") == 0
 
 	if def.font_size and (def.font_size == 32 or def.font_size == 31) then
 		font_size = 32
@@ -991,6 +1020,19 @@ function signs_lib.after_place_node(pos, placer, itemstack, pointed_thing, locke
 		meta:set_string("owner", playername)
 		meta:set_string("infotext", S("Locked sign, owned by @1\n", playername))
 	end
+
+	-- settingtypes.txt
+	local meta = minetest.get_meta(pos)
+	local default_uni = minetest.settings:get("signs_lib_unicode_font_sw_status")
+	if default_uni == "ON" then		meta:set_int("unifont", 1)
+	else		meta:set_int("unifont", 0)	end
+
+	local meta = minetest.get_meta(pos)
+	local default_wide = minetest.settings:get("signs_lib_wide_font_sw_status")
+	if default_wide == "ON" then		meta:set_int("widefont", 1)
+	else		meta:set_int("widefont", 0)	end
+
+	signs_lib.update_sign(pos)
 end
 
 function signs_lib.register_fence_with_sign()
@@ -1353,6 +1395,11 @@ function get_sign_formspec(pos, nodename)
 
 	local meta = minetest.get_meta(pos)
 	local txt = meta:get_string("text")
+
+-- 設定値の読み込み（未設定の場合は true 扱い）
+	local enable_uni = minetest.settings:get_bool("signs_lib_unicode_font_sw_control", true)
+	local enable_wide = minetest.settings:get_bool("signs_lib_wide_font_sw_control", true)
+
 	local state = meta:get_int("unifont") == 1 and "on" or "off"
 
 	local formspec = {
@@ -1362,15 +1409,31 @@ function get_sign_formspec(pos, nodename)
 		"textarea[0.15,-0.2;6.3,2.8;text;;" .. minetest.formspec_escape(txt) .. "]",
 		"button_exit[3.7,3.4;2,1;ok;" .. S("Write") .. "]",
 		"label[0.3,3.4;"..FS("Unicode font").."]",
-		"image_button[0.6,3.7;1,0.6;signs_lib_switch_" .. state .. ".png;uni_"
-			.. state .. ";;;false;signs_lib_switch_interm.png]",
 	}
 
+-- Unicode font スイッチの描画コントロール
+	if enable_uni then
+		-- ON(有効): 押せるボタンとして描画
+		formspec[#formspec+1] = "image_button[0.6,3.7;1,0.6;signs_lib_switch_" .. state .. ".png;uni_"
+			.. state .. ";;;false;signs_lib_switch_interm.png]"
+	else
+		-- OFF(無効): クリックできない固定画像として描画
+		formspec[#formspec+1] = "image[0.6,3.7;1,0.6;signs_lib_switch_" .. state .. ".png]"
+	end
+
+	-- Wide font スイッチの描画コントロール
 	if minetest.registered_nodes[nodename].allow_widefont then
 		state = meta:get_int("widefont") == 1 and "on" or "off"
-		formspec[#formspec+1] = "label[2.1,3.4;"..FS("Wide font").."]"
-		formspec[#formspec+1] = "image_button[2.3,3.7;1,0.6;signs_lib_switch_" .. state .. ".png;wide_"
+		formspec[#formspec+1] = "label[2.1,3.4;" .. FS("Wide font") .. "]"
+
+		if enable_wide then
+			-- ON(有効): 押せるボタンとして描画
+			formspec[#formspec+1] = "image_button[2.3,3.7;1,0.6;signs_lib_switch_" .. state .. ".png;wide_"
 				.. state .. ";;;false;signs_lib_switch_interm.png]"
+		else
+			-- OFF(無効): クリックできない固定画像として描画
+			formspec[#formspec+1] = "image[2.3,3.7;1,0.6;signs_lib_switch_" .. state .. ".png]"
+		end
 	end
 
 	return table.concat(formspec, "")

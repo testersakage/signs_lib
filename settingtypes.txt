@@ -1,0 +1,17 @@
+[Signs Lib]
+
+# Select GNU Unifont type
+signs_lib_select_unifont (Select Unifont) enum Default Default,Japanese
+
+# Unicode font Switch Control
+signs_lib_unicode_font_sw_control (Enable Unicode Font Button) bool true
+
+# Unicode font Switch Status
+signs_lib_unicode_font_sw_status (Unicode Font ON/OFF) enum OFF ON,OFF
+
+# Wide font Switch Control
+signs_lib_wide_font_sw_control (Enable Wide Font Button) bool true
+
+# Wide font Switch Status
+signs_lib_wide_font_sw_status (Wide Font ON/OFF) enum OFF ON,OFF
+
