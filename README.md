@@ -9,10 +9,10 @@ Luantiの設定画面から「Signs Lib」の設定項目にある「Select Unif
 更に日本語以外のunifontからアトラス画像を生成して `settingtypes.txt` と `unifont.tsv` を編集することでフォントを追加する事も可能です。
 
 Luantiの設定画面  
-<img width=480, height=372, src="https://github.com/testersakage/atlas_viewer/blob/selectfont/screenshots/settingtypes.png"></img>
+<img width=480, height=372, src="https://github.com/testersakage/signs_lib/blob/selectfont/screenshots/settingtypes.png"></img>
 
 中華フォント問題の解消  
-<img width=480, height=332, src="https://github.com/testersakage/atlas_viewer/blob/selectfont/screenshots/fontcmp.png"></img>
+<img width=480, height=332, src="https://github.com/testersakage/signs_lib/blob/selectfont/screenshots/fontcmp.png"></img>
 
 
 ## 導入方法
@@ -24,6 +24,6 @@ Luantiの設定画面
 
 ## ライセンス
 
-[LICENSE](./LICENSE)
-License for code: LGPL 3.0
-License for media and all other assets:  CC-by-SA 4.0
+[LICENSE](./LICENSE)  
+License for code: LGPL 3.0  
+License for media and all other assets:  CC-by-SA 4.0  
